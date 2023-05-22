@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class NotesHandler implements Serializable {
-    private ArrayList<Note> notes = new ArrayList<>();
+    public static String defaultFileName = "notes.db";
+    private final ArrayList<Note> notes = new ArrayList<>();
     public void addNote(String name, String contents) throws Exception {
         if(getNoteByName(name)!=null){
             throw new Exception("Name is already in notes");
         }
         notes.add(new Note(name, contents));
+        update();
     }
-    public void removeNote(int index){
+    public void removeNote(int index) throws IOException {
         notes.remove(index);
+        update();
     }
     public Note getNote(int index) throws  IndexOutOfBoundsException{
         if(index<0 || index>=notes.size())
@@ -27,8 +30,9 @@ public class NotesHandler implements Serializable {
         }
         return null;
     }
-    public void removeNote(String name){
+    public void removeNote(String name) throws IOException {
         notes.removeIf(note -> note.getName().equals(name));
+        update();
     }
     public ArrayList<Note> getNotes(){return notes;}
 
@@ -50,5 +54,8 @@ public class NotesHandler implements Serializable {
         oIn.close();
         fin.close();
         return result;
+    }
+    public void update() throws IOException {
+        saveNoteBook(this, defaultFileName);
     }
 }

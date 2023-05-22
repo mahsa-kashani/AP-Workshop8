@@ -1,4 +1,7 @@
-import java.io.Serializable;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.util.Date;
 
 public class Note implements Serializable {
@@ -23,4 +26,18 @@ public class Note implements Serializable {
     public String getDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        String result = "------- "+ this.getName()+ " -------\n";
+        result+=contents;
+        result+="\n------------------------------\n";
+        result+=this.getDate();
+        return result;
+    }
+
+    public void export(String fileName) throws IOException {
+        Files.writeString(Path.of(fileName), this.toString());
+    }
+
 }
