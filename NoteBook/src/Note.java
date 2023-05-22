@@ -11,4 +11,16 @@ public class Note implements Serializable {
         this.contents = contents;
         this.date = new Date().toString();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getContents() {
+        return contents;
+    }
+
+    public String getDate() {
+        return date;
+    }
 }
